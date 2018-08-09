@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public float Speed = 6f;
     public float SpeedDumbTime = 0.1f;
-
+    public AudioClip ShoutAudioSource;
 
 
     private Vector3 _movement;
@@ -25,32 +25,42 @@ public class PlayerMovement : MonoBehaviour {
         _rigidBody = GetComponent<Rigidbody>();
 
         _hash = GameObject.FindGameObjectWithTag(Tags.GameController).GetComponent<HashIDs>();
-
+        _animator.SetLayerWeight(1, 1f);
     }
 
     void FixedUpdate()
     {
         float h = Input.GetAxisRaw(Inputs.Horizontal);
-
         float v = Input.GetAxisRaw(Inputs.Vertical);
 
-        MovementManager(h, v);
+        bool walk = Input.GetButton(Inputs.Walking);
+        bool sneak = Input.GetButton(Inputs.Sneaking);
+        bool shout = Input.GetButtonDown(Inputs.Shouting);
+    
+        MovementManager(h, v, walk, sneak);
         Turning();
-
+        ActionManager(shout);
     }
 
-    void MovementManager(float horizontal, float vertical)
+    void MovementManager(float horizontal, float vertical, bool walking, bool sneaking)
     {
         if (horizontal != 0f || vertical != 0f)
         {
-            _animator.SetFloat(_hash.Speed, 5.6f,SpeedDumbTime,Time.deltaTime);
+            _animator.SetBool(_hash.IsSneaking,sneaking);
+            if (!walking)
+            {
+                _animator.SetFloat(_hash.Speed, 5.6f, SpeedDumbTime, Time.deltaTime);
+            }
+            else
+            {
+                _animator.SetFloat(_hash.Speed, 1.6f, SpeedDumbTime, Time.deltaTime);
+            }
+            
         }
         else
         {
             _animator.SetFloat(_hash.Speed, 0f);
         }
-
-
     }
 
     void Turning()
@@ -64,11 +74,26 @@ public class PlayerMovement : MonoBehaviour {
             playerToMouse.y = 0f;
 
             Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
-
             _rigidBody.MoveRotation(newRotation);
 
         }
 
+    }
+    void ActionManager(bool shouting)
+    {
+
+        _animator.SetBool(_hash.IsShouting, shouting);
+        ShoutAudio(shouting);        
+    }
+    void ShoutAudio(bool shouting)
+    {
+        if (ShoutAudioSource != null)
+        {
+            if (shouting)
+            {
+                AudioSource.PlayClipAtPoint(ShoutAudioSource, transform.position);
+            }           
+        }
     }
 
 }

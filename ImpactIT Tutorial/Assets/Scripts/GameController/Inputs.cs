@@ -9,6 +9,9 @@ public class Inputs {
     public const string Fire3 = "Fire3";
     public const string Jump = "Jump";
     public const string ScrollWheel = "Mouse ScrollWheel";
+    public const string Walking = "Walking";
+    public const string Sneaking = "Sneaking";
+    public const string Shouting = "Shouting";
 
 	// Use this for initialization
 	void Start () {

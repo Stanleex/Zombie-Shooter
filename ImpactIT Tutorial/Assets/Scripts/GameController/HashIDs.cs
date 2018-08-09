@@ -7,12 +7,20 @@ public class HashIDs : MonoBehaviour {
     [HideInInspector]
     public int 
             Speed, 
-            IsDead;
+            IsDead,
+            IsWalking,
+            IsSneaking,
+            IsShouting,
+            IsShooting;
 
     void Awake()
     {
         Speed = Animator.StringToHash("Speed");
         IsDead = Animator.StringToHash("IsDead");
+        IsWalking = Animator.StringToHash("IsWalking");
+        IsSneaking = Animator.StringToHash("IsSneaking");
+        IsShouting = Animator.StringToHash("IsShouting");
+        IsShooting = Animator.StringToHash("IsShooting");
     }
 
 	// Use this for initialization
