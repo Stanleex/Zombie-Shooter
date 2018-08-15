@@ -3608,7 +3608,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!95 &95598836952806440
 Animator:
@@ -3639,6 +3639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dc9953d1aa33b4d8bc778ee9765966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeadZone: 5
 --- !u!135 &135935987697483272
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -4268,7 +4269,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 1.8
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.8
   m_BaseOffset: 0
