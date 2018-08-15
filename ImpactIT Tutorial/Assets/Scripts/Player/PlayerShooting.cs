@@ -25,7 +25,6 @@ public class PlayerShooting : MonoBehaviour {
 
     void ShootingManager(bool shoot)
     {
-
         _animator.SetBool(_hash.IsShooting, shoot);
     }
 }

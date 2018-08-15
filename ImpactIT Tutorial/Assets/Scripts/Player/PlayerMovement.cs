@@ -53,13 +53,13 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                _animator.SetFloat(_hash.Speed, 1.6f, SpeedDumbTime, Time.deltaTime);
+                _animator.SetFloat(_hash.Speed, 2.6f, SpeedDumbTime, Time.deltaTime);
             }
             
         }
         else
         {
-            _animator.SetFloat(_hash.Speed, 0f);
+            _animator.SetFloat(_hash.Speed, 0f, SpeedDumbTime, Time.deltaTime);
         }
     }
 
