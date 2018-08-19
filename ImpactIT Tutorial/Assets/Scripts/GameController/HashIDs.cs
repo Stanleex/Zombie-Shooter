@@ -15,7 +15,8 @@ public class HashIDs : MonoBehaviour {
             EnemyWalking,
             EnemySpeed,
             Skills,
-            EnemyAngularSpeed;
+            EnemyAngularSpeed,
+            Shot;
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class HashIDs : MonoBehaviour {
         EnemySpeed = Animator.StringToHash("EnemySpeed");
         EnemyAngularSpeed = Animator.StringToHash("EnemyAngularSpeed");
         Skills = Animator.StringToHash("Skills");
+        Shot = Animator.StringToHash("Shot");
 
         
     }

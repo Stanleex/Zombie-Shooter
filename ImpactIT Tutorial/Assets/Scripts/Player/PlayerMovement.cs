@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ public class PlayerMovement : MonoBehaviour {
     private float _camRayLength = 100f;
     private HashIDs _hash;
 
+    private PlayerHealth _PlayerHealth;
+    private bool _PlayerDeathAnimation;
+
 
     void Awake()
     {
@@ -26,20 +30,41 @@ public class PlayerMovement : MonoBehaviour {
 
         _hash = GameObject.FindGameObjectWithTag(Tags.GameController).GetComponent<HashIDs>();
         _animator.SetLayerWeight(1, 1f);
+
+        _PlayerHealth = GetComponent<PlayerHealth>();
+        _PlayerDeathAnimation = true;
     }
 
     void FixedUpdate()
     {
-        float h = Input.GetAxisRaw(Inputs.Horizontal);
-        float v = Input.GetAxisRaw(Inputs.Vertical);
+        if (!_PlayerHealth.IsDead)
+        {
+            float h = Input.GetAxisRaw(Inputs.Horizontal);
+            float v = Input.GetAxisRaw(Inputs.Vertical);
 
-        bool walk = Input.GetButton(Inputs.Walking);
-        bool sneak = Input.GetButton(Inputs.Sneaking);
-        bool shout = Input.GetButtonDown(Inputs.Shouting);
-    
-        MovementManager(h, v, walk, sneak);
-        Turning();
-        ActionManager(shout);
+            bool walk = Input.GetButton(Inputs.Walking);
+            bool sneak = Input.GetButton(Inputs.Sneaking);
+            bool shout = Input.GetButtonDown(Inputs.Shouting);
+
+            MovementManager(h, v, walk, sneak);
+            Turning();
+            ActionManager(shout);
+        }
+        else
+        {
+            DeathManager();
+        }
+
+    }
+
+    private void DeathManager()
+    {
+        if (_PlayerDeathAnimation)
+        {
+            _animator.SetTrigger(_hash.IsDead);
+            _PlayerDeathAnimation = false;
+        }
+        
     }
 
     void MovementManager(float horizontal, float vertical, bool walking, bool sneaking)

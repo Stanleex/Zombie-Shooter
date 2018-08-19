@@ -184,3 +184,4 @@ F:\Programowanie\Repos\Zombie-Shooter\ImpactIT Tutorial\.vs\ImpactIT Tutorial\lu
 F:\Programowanie\Repos\Zombie-Shooter\ImpactIT Tutorial\.vs\ImpactIT Tutorial\lut\0\i\Assembly-CSharp\Debug\Assembly-CSharp.csproj.CopyComplete
 F:\Programowanie\Repos\Zombie-Shooter\ImpactIT Tutorial\.vs\ImpactIT Tutorial\lut\0\i\Assembly-CSharp\Debug\Assembly-CSharp.dll
 F:\Programowanie\Repos\Zombie-Shooter\ImpactIT Tutorial\.vs\ImpactIT Tutorial\lut\0\i\Assembly-CSharp\Debug\Assembly-CSharp.pdb
+F:\Programowanie\Repos\Zombie-Shooter\ImpactIT Tutorial\.vs\ImpactIT Tutorial\lut\0\i\Assembly-CSharp\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
