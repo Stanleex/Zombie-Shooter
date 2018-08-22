@@ -17,8 +17,9 @@ public class EnemyMovement : MonoBehaviour {
     private HashIDs _hash;
     private SphereCollider _SphereCollider;
     private EnemyAnimatorHelper _AnimatorHelper;
-
-    
+    private bool _EnemyDeathAnimation;
+    private Health _EnemyHealth;
+    private CapsuleCollider _EnemyCollider;
     //fov - filed of view
 
     private bool EnemyCanSeePlayer;
@@ -35,8 +36,8 @@ public class EnemyMovement : MonoBehaviour {
         _Player = GameObject.FindGameObjectWithTag(Tags.Player);
         _Animator = GetComponent<Animator>();
         _hash = GameObject.FindGameObjectWithTag(Tags.GameController).GetComponent<HashIDs>();
-        
-
+        _EnemyHealth = GetComponent<Health>();
+        _EnemyCollider = GetComponent<CapsuleCollider>();
         _AnimatorHelper = new EnemyAnimatorHelper(_Animator, _hash);
 
         _NavMeshAgent.updateRotation = false;
@@ -52,6 +53,7 @@ public class EnemyMovement : MonoBehaviour {
         EnemyCanSeePlayer = false;
         EnemyCanHearPlayer = false;
 
+        _EnemyDeathAnimation = true;
         _SphereCollider.radius = DetectionRange;
     }
 
@@ -64,8 +66,17 @@ public class EnemyMovement : MonoBehaviour {
 
     void Update()
     {
-        DetectionManager(_LastKnownPosition);
-        DecisionManager();    
+        if (!_EnemyHealth.IsDead)
+        {
+            DetectionManager(_LastKnownPosition);
+            DecisionManager();
+        }
+        else
+        {
+            DeathManager();
+            _EnemyCollider.isTrigger = true;
+        }
+          
     }
 
     void OnTriggerStay(Collider other)
@@ -88,6 +99,15 @@ public class EnemyMovement : MonoBehaviour {
         }
     }
 
+    private void DeathManager()
+    {
+        if (_EnemyDeathAnimation)
+        {
+            _Animator.SetTrigger(_hash.IsDead);
+            _EnemyDeathAnimation = false;
+        }
+
+    }
 
     void StopAnimation()
     {

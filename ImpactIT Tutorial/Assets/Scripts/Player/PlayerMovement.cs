@@ -18,9 +18,10 @@ public class PlayerMovement : MonoBehaviour {
     private float _camRayLength = 100f;
     private HashIDs _hash;
 
-    private PlayerHealth _PlayerHealth;
+    private Health _PlayerHealth;
     private bool _PlayerDeathAnimation;
 
+    
 
     void Awake()
     {
@@ -31,11 +32,11 @@ public class PlayerMovement : MonoBehaviour {
         _hash = GameObject.FindGameObjectWithTag(Tags.GameController).GetComponent<HashIDs>();
         _animator.SetLayerWeight(1, 1f);
 
-        _PlayerHealth = GetComponent<PlayerHealth>();
+        _PlayerHealth = GetComponent<Health>();
         _PlayerDeathAnimation = true;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (!_PlayerHealth.IsDead)
         {
@@ -47,7 +48,6 @@ public class PlayerMovement : MonoBehaviour {
             bool shout = Input.GetButtonDown(Inputs.Shouting);
 
             MovementManager(h, v, walk, sneak);
-            Turning();
             ActionManager(shout);
         }
         else
@@ -55,6 +55,15 @@ public class PlayerMovement : MonoBehaviour {
             DeathManager();
         }
 
+    }
+
+
+    void FixedUpdate()
+    {
+        if (!_PlayerHealth.IsDead)
+        {
+            Turning();
+        }
     }
 
     private void DeathManager()

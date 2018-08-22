@@ -9,15 +9,20 @@ public class PlayerShooting : MonoBehaviour {
 
     public LayerMask Mask;
     public Transform whiteRabbit;
+    public float WeaponDamage = 10f;
 
     private Animator _Animator;
     private HashIDs _Hash;
-    bool Shoot;
+    private bool _Shoot;
+
+    private AudioSource _LaserGunSound;
     void Awake()
     {
-        _Animator = GameObject.FindGameObjectWithTag(Tags.Player).GetComponent<Animator>();
+        _Animator = GetComponentInParent<Animator>();
         _Hash = GameObject.FindGameObjectWithTag(Tags.GameController).GetComponent<HashIDs>();
-        Shoot = false;
+        _LaserGunSound = GetComponent<AudioSource>();
+        _Shoot = false;
+
         _Animator.SetLayerWeight(2, 1);
         _Animator.SetLayerWeight(3, 1);
 
@@ -25,9 +30,9 @@ public class PlayerShooting : MonoBehaviour {
 
     void Update()
     {
-        Shoot = Input.GetButton(Inputs.Fire1);
+        _Shoot = Input.GetButton(Inputs.Fire1);
 
-        Attack(Shoot);
+        Attack(_Shoot);
        
     }
 
@@ -40,13 +45,22 @@ public class PlayerShooting : MonoBehaviour {
         {
             Ray camray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            
+
+            _LaserGunSound.pitch = Random.Range(0.8f,1.2f);
+            _LaserGunSound.PlayOneShot(_LaserGunSound.clip);
 
             if (Physics.Raycast(camray, out hit, 300f, Mask))
             {
+                Health enemyHealth = hit.collider.GetComponent<Health>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.LoseHealth(WeaponDamage);
+                }
+
+
                 if (whiteRabbit != null)
                 {
-
+                    
                     whiteRabbit.position = hit.point;
                     Debug.DrawLine(transform.position, whiteRabbit.transform.position, Color.white);
                 }

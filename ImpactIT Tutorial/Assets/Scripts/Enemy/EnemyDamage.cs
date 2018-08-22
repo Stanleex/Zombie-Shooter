@@ -8,17 +8,23 @@ public class EnemyDamage : MonoBehaviour {
     public float TimeBetweenAttacks = 1f;//1sec
 
     private GameObject _Player;
-    private PlayerHealth _PlayerHealth;
+    private Health _PlayerHealth;
     private bool _PlayerInRange;
     private float _Timer;
+    private Health _EnemyHealth;
+
+    private AudioSource _EnemyAttackSound;
 
     void Awake()
     {
         _Player = GameObject.FindGameObjectWithTag(Tags.Player);
+        _EnemyHealth = GetComponentInParent<Health>();
+        _EnemyAttackSound = GetComponent<AudioSource>();
+
 
         if (_Player != null)
         {
-            _PlayerHealth = _Player.GetComponent<PlayerHealth>();
+            _PlayerHealth = _Player.GetComponent<Health>();
         }
         _PlayerInRange = false;
 
@@ -26,11 +32,15 @@ public class EnemyDamage : MonoBehaviour {
 
     void Update()
     {
-        _Timer += Time.deltaTime;
-        if (_Timer >= TimeBetweenAttacks && _PlayerInRange && _PlayerHealth.CurrentHealth > 0)
+        if (!_EnemyHealth.IsDead)
         {
-            Attack();
+            _Timer += Time.deltaTime;
+            if (_Timer >= TimeBetweenAttacks && _PlayerInRange && _PlayerHealth.CurrentHealth > 0)
+            {
+                Attack();
+            }
         }
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -53,7 +63,12 @@ public class EnemyDamage : MonoBehaviour {
     void Attack()
     {
         _Timer = 0f;
-        _PlayerHealth.LoseHealth(Damage);       
+
+        _EnemyAttackSound.pitch = Random.Range(0.8f, 1.2f);
+        _EnemyAttackSound.PlayOneShot(_EnemyAttackSound.clip);
+
+        _PlayerHealth.LoseHealth(Damage);
+            
     }
 
 }
